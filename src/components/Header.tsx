@@ -4,18 +4,21 @@ import { Wand2 } from 'lucide-react';
 
 const Header = () => {
   return (
-    <header className="bg-wizard-blue shadow-md">
+    <header className="bg-white shadow-md border-b border-wizard-neutral-200">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Wand2 className="h-8 w-8 text-wizard-gold" />
           <div>
-            <h1 className="text-xl font-bold text-white">Quote Alchemy Wizard</h1>
-            <p className="text-xs text-wizard-neutral-100">Transform client data into perfect proposals</p>
+            <h1 className="text-xl font-bold text-wizard-blue">Quote Alchemy Wizard</h1>
+            <p className="text-xs text-wizard-neutral-500">Transform client data into perfect proposals</p>
           </div>
         </div>
         <div className="text-right">
-          <p className="text-sm text-white font-semibold">Lang & Schwander</p>
-          <p className="text-xs text-wizard-neutral-200">Hotel Interiors</p>
+          <img 
+            src="/lovable-uploads/bb1568c2-0c5d-4c2e-9735-7c4eb8673c7c.png" 
+            alt="Lang & Schwander Logo" 
+            className="h-12 object-contain"
+          />
         </div>
       </div>
     </header>

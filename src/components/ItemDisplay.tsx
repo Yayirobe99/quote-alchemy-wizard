@@ -32,19 +32,31 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-// Mock data - in a real app this would come from file processing
+// Updated Item type with new fields based on provided image
 export type Item = {
   id: string;
-  code: string;
-  name: string;
-  description: string;
-  dimensions: string;
-  finishes: string;
-  location: string;
+  code: string;                    // Item Identifier (Item #)
+  name: string;                    // Item Name
+  description: string;             // Description
+  category: string;                // Item Category
+  drawingReference: string;        // Drawing Reference Designator
+  vendor: string;                  // Vendor
+  manufacturer: string;            // Manufacturer
+  vendorItemId: string;            // Vendor Item ID / Vendor SKU
+  marriottDescription: string;     // Marriott Description
+  dimensions: {                    // Dimensions split into components
+    height: string;
+    width: string;
+    depth: string;
+  };
+  finishes: string;                // Finishes
+  finishCategory: string;          // Finish Category
+  finishSelection: string;         // Finish Selection
+  location: string;                // Area / Location
   quantity: number;
   unit: string;
-  vendor: string;
   accessories: string[];
+  specialInstructions: string[];   // Special Instructions
   hasImage: boolean;
   hasDuplicate: boolean;
 };
@@ -69,7 +81,10 @@ const ItemDisplay = ({ items = [], onExport }: ItemDisplayProps) => {
         item.code.toLowerCase().includes(term) || 
         item.name.toLowerCase().includes(term) || 
         item.description.toLowerCase().includes(term) ||
-        item.location.toLowerCase().includes(term)
+        item.location.toLowerCase().includes(term) ||
+        item.category.toLowerCase().includes(term) ||
+        item.vendor.toLowerCase().includes(term) ||
+        item.manufacturer.toLowerCase().includes(term)
       );
       setFilteredItems(filtered);
     }
@@ -124,15 +139,21 @@ const ItemDisplay = ({ items = [], onExport }: ItemDisplayProps) => {
         </div>
       </div>
       
-      <div className="border rounded-md overflow-hidden">
+      <div className="border rounded-md overflow-x-auto">
         <Table>
           <TableHeader className="bg-wizard-neutral-100">
             <TableRow>
               <TableHead className="w-12"></TableHead>
-              <TableHead>Code</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Dimensions</TableHead>
+              <TableHead>Item Category</TableHead>
+              <TableHead>Item # (Code)</TableHead>
+              <TableHead>Drawing Reference</TableHead>
+              <TableHead>Vendor</TableHead>
+              <TableHead>Manufacturer</TableHead>
+              <TableHead>Vendor Item ID</TableHead>
+              <TableHead>Marriott Description</TableHead>
+              <TableHead>Height</TableHead>
+              <TableHead>Width</TableHead>
+              <TableHead>Depth</TableHead>
               <TableHead>Location</TableHead>
               <TableHead>Qty</TableHead>
               <TableHead className="text-right">Actions</TableHead>
@@ -156,12 +177,18 @@ const ItemDisplay = ({ items = [], onExport }: ItemDisplayProps) => {
                       )}
                     </div>
                   </TableCell>
+                  <TableCell>{item.category}</TableCell>
                   <TableCell className="font-medium">{item.code}</TableCell>
-                  <TableCell>{item.name}</TableCell>
+                  <TableCell>{item.drawingReference}</TableCell>
+                  <TableCell>{item.vendor}</TableCell>
+                  <TableCell>{item.manufacturer}</TableCell>
+                  <TableCell>{item.vendorItemId}</TableCell>
                   <TableCell>
-                    <div className="max-w-xs truncate">{item.description}</div>
+                    <div className="max-w-xs truncate">{item.marriottDescription || item.description}</div>
                   </TableCell>
-                  <TableCell>{item.dimensions}</TableCell>
+                  <TableCell>{item.dimensions.height}</TableCell>
+                  <TableCell>{item.dimensions.width}</TableCell>
+                  <TableCell>{item.dimensions.depth}</TableCell>
                   <TableCell>{item.location}</TableCell>
                   <TableCell>{item.quantity} {item.unit}</TableCell>
                   <TableCell className="text-right">
@@ -178,7 +205,7 @@ const ItemDisplay = ({ items = [], onExport }: ItemDisplayProps) => {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={8} className="text-center py-8 text-wizard-neutral-500">
+                <TableCell colSpan={14} className="text-center py-8 text-wizard-neutral-500">
                   No items found. Try adjusting your search.
                 </TableCell>
               </TableRow>
