@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import FileUpload from '@/components/FileUpload';
@@ -7,7 +6,6 @@ import ItemDisplay, { Item } from '@/components/ItemDisplay';
 import { processFiles, exportToExcel, consolidateDuplicates } from '@/services/dataProcessing';
 import { useToast } from '@/components/ui/use-toast';
 
-// Update the step type to include 'completed' in the status union type
 type StepStatus = 'inactive' | 'active' | 'completed';
 
 type Step = {
@@ -66,7 +64,6 @@ const Index = () => {
       updateStepStatus('extract', 'active');
       setCurrentStep('extract');
       
-      // Process files
       const items = await processFiles(files);
       setProcessedItems(items);
       
@@ -74,7 +71,6 @@ const Index = () => {
       updateStepStatus('consolidate', 'active');
       setCurrentStep('consolidate');
       
-      // Consolidate duplicates
       const consolidated = await consolidateDuplicates(items);
       setProcessedItems(consolidated);
       

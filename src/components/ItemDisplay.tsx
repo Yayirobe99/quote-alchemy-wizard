@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   Table, 
@@ -32,7 +31,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-// Updated Item type with new fields based on provided image
 export type Item = {
   id: string;
   code: string;                    // Item Identifier (Item #)
@@ -98,7 +96,7 @@ const ItemDisplay = ({ items = [], onExport }: ItemDisplayProps) => {
   return (
     <Card className="w-full p-4">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
-        <h2 className="font-bold text-xl text-wizard-blue">Extracted Items ({filteredItems.length})</h2>
+        <h2 className="font-bold text-xl text-wizard-neutral-800">Extracted Items ({filteredItems.length})</h2>
         
         <div className="flex gap-2">
           <div className="relative">
@@ -132,7 +130,7 @@ const ItemDisplay = ({ items = [], onExport }: ItemDisplayProps) => {
           
           <Button 
             onClick={onExport}
-            className="bg-wizard-gold hover:bg-wizard-gold-dark"
+            className="bg-wizard-gold hover:bg-wizard-gold-dark text-white"
           >
             Export to Excel
           </Button>
@@ -171,7 +169,7 @@ const ItemDisplay = ({ items = [], onExport }: ItemDisplayProps) => {
                         </Badge>
                       )}
                       {item.hasDuplicate && (
-                        <Badge variant="outline" className="h-6 w-6 p-0 flex items-center justify-center text-wizard-gold-dark border-wizard-gold-dark">
+                        <Badge variant="outline" className="h-6 w-6 p-0 flex items-center justify-center text-wizard-gold border-wizard-gold">
                           <FileText className="h-3 w-3" />
                         </Badge>
                       )}

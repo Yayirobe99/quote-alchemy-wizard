@@ -9,7 +9,7 @@ const Header = () => {
         <div className="flex items-center gap-2">
           <Wand2 className="h-8 w-8 text-wizard-gold" />
           <div>
-            <h1 className="text-xl font-bold text-wizard-blue">Quote Alchemy Wizard</h1>
+            <h1 className="text-xl font-bold text-wizard-neutral-800">Quote Alchemy Wizard</h1>
             <p className="text-xs text-wizard-neutral-500">Transform client data into perfect proposals</p>
           </div>
         </div>

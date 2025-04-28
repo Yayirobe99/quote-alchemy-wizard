@@ -35,7 +35,7 @@ const ProcessingSteps = ({ steps, currentStep }: ProcessingStepsProps) => {
           >
             <div className="absolute -left-4 top-0">
               {step.status === 'completed' ? (
-                <CheckCircle2 className="h-8 w-8 text-wizard-gold-dark" />
+                <CheckCircle2 className="h-8 w-8 text-wizard-gold" />
               ) : step.status === 'active' ? (
                 <CircleEllipsis className="h-8 w-8 text-wizard-blue animate-pulse" />
               ) : (
@@ -57,7 +57,7 @@ const ProcessingSteps = ({ steps, currentStep }: ProcessingStepsProps) => {
                   step.status === 'active' 
                     ? 'text-wizard-blue' 
                     : step.status === 'completed' 
-                      ? 'text-wizard-gold-dark' 
+                      ? 'text-wizard-gold' 
                       : 'text-wizard-neutral-500'
                 }`}
               >

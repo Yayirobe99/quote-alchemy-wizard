@@ -65,14 +65,14 @@ export default {
 				},
 				wizard: {
 					blue: {
-						light: '#E6F7FF',
-						DEFAULT: '#1E40AF',
-						dark: '#1E3A8A',
+						light: '#E0F7FA',
+						DEFAULT: '#0EA5E9', // Lang & Schwander Ocean Blue
+						dark: '#0288D1',
 					},
 					gold: {
-						light: '#FFF7E6',
-						DEFAULT: '#D4AF37',
-						dark: '#B38728',
+						light: '#FEF7CD', // Lang & Schwander Soft Yellow
+						DEFAULT: '#D946EF', // Lang & Schwander Magenta Pink
+						dark: '#C026D3',
 					},
 					neutral: {
 						50: '#F9FAFB',
@@ -80,10 +80,10 @@ export default {
 						200: '#E5E7EB',
 						300: '#D1D5DB',
 						400: '#9CA3AF',
-						500: '#6B7280',
+						500: '#8E9196', // Lang & Schwander Neutral Gray
 						600: '#4B5563',
 						700: '#374151',
-						800: '#1F2937',
+						800: '#222222', // Lang & Schwander Dark Gray
 						900: '#111827',
 					}
 				}
