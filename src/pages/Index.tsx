@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import FileUpload from '@/components/FileUpload';
@@ -120,7 +121,7 @@ const Index = () => {
       <main className="flex-1">
         <div className="wizard-container">
           <div className="mb-8">
-            <h1 className="wizard-heading">Quote Alchemy Wizard</h1>
+            <h1 className="wizard-heading">LSquote Wizard</h1>
             <p className="wizard-subheading">Transform client data into perfect proposals</p>
           </div>
           
@@ -148,7 +149,7 @@ const Index = () => {
       </main>
       
       <footer className="mt-auto py-4 bg-wizard-blue text-white text-center text-sm">
-        <p>© 2025 Lang & Schwander Hotel Interiors - Quote Alchemy Wizard</p>
+        <p>© 2025 Lang & Schwander Hotel Interiors - LSquote Wizard</p>
       </footer>
     </div>
   );
