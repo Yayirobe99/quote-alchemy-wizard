@@ -7,30 +7,40 @@ import ItemDisplay, { Item } from '@/components/ItemDisplay';
 import { processFiles, exportToExcel, consolidateDuplicates } from '@/services/dataProcessing';
 import { useToast } from '@/components/ui/use-toast';
 
-const steps = [
+// Update the step type to include 'completed' in the status union type
+type StepStatus = 'inactive' | 'active' | 'completed';
+
+type Step = {
+  id: string;
+  title: string;
+  description: string;
+  status: StepStatus;
+};
+
+const steps: Step[] = [
   {
     id: 'upload',
     title: 'Upload Files',
     description: 'Upload client specification documents, spreadsheets, and PDFs',
-    status: 'active' as const,
+    status: 'active',
   },
   {
     id: 'extract',
     title: 'Extract Data',
     description: 'Automatically extract items, specifications, quantities, and accessories',
-    status: 'inactive' as const,
+    status: 'inactive',
   },
   {
     id: 'consolidate',
     title: 'Consolidate Items',
     description: 'Identify and merge duplicate items with identical specifications',
-    status: 'inactive' as const,
+    status: 'inactive',
   },
   {
     id: 'export',
     title: 'Generate Proposal',
     description: 'Export a clean, organized Excel file ready for pricing and client submission',
-    status: 'inactive' as const,
+    status: 'inactive',
   }
 ];
 
@@ -38,10 +48,10 @@ const Index = () => {
   const [currentStep, setCurrentStep] = useState('upload');
   const [processedItems, setProcessedItems] = useState<Item[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [currentSteps, setCurrentSteps] = useState(steps);
+  const [currentSteps, setCurrentSteps] = useState<Step[]>(steps);
   const { toast } = useToast();
 
-  const updateStepStatus = (stepId: string, status: 'inactive' | 'active' | 'completed') => {
+  const updateStepStatus = (stepId: string, status: StepStatus) => {
     setCurrentSteps(prevSteps => 
       prevSteps.map(step => 
         step.id === stepId ? { ...step, status } : step

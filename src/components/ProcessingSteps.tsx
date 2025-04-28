@@ -2,11 +2,13 @@
 import React from 'react';
 import { CheckCircle2, CircleDashed, CircleEllipsis } from 'lucide-react';
 
+type StepStatus = 'inactive' | 'active' | 'completed';
+
 type Step = {
   id: string;
   title: string;
   description: string;
-  status: 'inactive' | 'active' | 'completed';
+  status: StepStatus;
 };
 
 type ProcessingStepsProps = {
