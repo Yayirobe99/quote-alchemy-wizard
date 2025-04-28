@@ -1,12 +1,149 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useState } from 'react';
+import Header from '@/components/Header';
+import FileUpload from '@/components/FileUpload';
+import ProcessingSteps from '@/components/ProcessingSteps';
+import ItemDisplay, { Item } from '@/components/ItemDisplay';
+import { processFiles, exportToExcel, consolidateDuplicates } from '@/services/dataProcessing';
+import { useToast } from '@/components/ui/use-toast';
+
+const steps = [
+  {
+    id: 'upload',
+    title: 'Upload Files',
+    description: 'Upload client specification documents, spreadsheets, and PDFs',
+    status: 'active' as const,
+  },
+  {
+    id: 'extract',
+    title: 'Extract Data',
+    description: 'Automatically extract items, specifications, quantities, and accessories',
+    status: 'inactive' as const,
+  },
+  {
+    id: 'consolidate',
+    title: 'Consolidate Items',
+    description: 'Identify and merge duplicate items with identical specifications',
+    status: 'inactive' as const,
+  },
+  {
+    id: 'export',
+    title: 'Generate Proposal',
+    description: 'Export a clean, organized Excel file ready for pricing and client submission',
+    status: 'inactive' as const,
+  }
+];
 
 const Index = () => {
+  const [currentStep, setCurrentStep] = useState('upload');
+  const [processedItems, setProcessedItems] = useState<Item[]>([]);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [currentSteps, setCurrentSteps] = useState(steps);
+  const { toast } = useToast();
+
+  const updateStepStatus = (stepId: string, status: 'inactive' | 'active' | 'completed') => {
+    setCurrentSteps(prevSteps => 
+      prevSteps.map(step => 
+        step.id === stepId ? { ...step, status } : step
+      )
+    );
+  };
+
+  const handleFilesUploaded = async (files: File[]) => {
+    try {
+      setIsProcessing(true);
+      updateStepStatus('upload', 'completed');
+      updateStepStatus('extract', 'active');
+      setCurrentStep('extract');
+      
+      // Process files
+      const items = await processFiles(files);
+      setProcessedItems(items);
+      
+      updateStepStatus('extract', 'completed');
+      updateStepStatus('consolidate', 'active');
+      setCurrentStep('consolidate');
+      
+      // Consolidate duplicates
+      const consolidated = await consolidateDuplicates(items);
+      setProcessedItems(consolidated);
+      
+      updateStepStatus('consolidate', 'completed');
+      updateStepStatus('export', 'active');
+      setCurrentStep('export');
+      
+      setIsProcessing(false);
+      
+      toast({
+        title: "Processing Complete",
+        description: `Successfully extracted ${items.length} items from the uploaded files.`,
+      });
+    } catch (error) {
+      setIsProcessing(false);
+      toast({
+        title: "Processing Error",
+        description: "An error occurred while processing the files. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleExport = async () => {
+    try {
+      const success = await exportToExcel();
+      if (success) {
+        updateStepStatus('export', 'completed');
+        toast({
+          title: "Export Successful",
+          description: "Your proposal has been exported to Excel successfully.",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Export Failed",
+        description: "An error occurred during export. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-wizard-neutral-50 flex flex-col">
+      <Header />
+      
+      <main className="flex-1">
+        <div className="wizard-container">
+          <div className="mb-8">
+            <h1 className="wizard-heading">Quote Alchemy Wizard</h1>
+            <p className="wizard-subheading">Transform client data into perfect proposals</p>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-1">
+              <ProcessingSteps steps={currentSteps} currentStep={currentStep} />
+            </div>
+            
+            <div className="lg:col-span-2">
+              {currentStep === 'upload' && (
+                <FileUpload onFilesUploaded={handleFilesUploaded} />
+              )}
+              
+              {(currentStep === 'extract' || currentStep === 'consolidate' || currentStep === 'export') && (
+                <div className="space-y-6">
+                  <ItemDisplay 
+                    items={processedItems} 
+                    onExport={handleExport}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </main>
+      
+      <footer className="mt-auto py-4 bg-wizard-blue text-white text-center text-sm">
+        <p>© 2025 Lang & Schwander Hotel Interiors - Quote Alchemy Wizard</p>
+      </footer>
     </div>
   );
 };
