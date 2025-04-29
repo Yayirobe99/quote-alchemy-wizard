@@ -65,6 +65,7 @@ const Index = () => {
       updateStepStatus('extract', 'active');
       setCurrentStep('extract');
       
+      // Process the files and extract items
       const items = await processFiles(files);
       setProcessedItems(items);
       
@@ -72,6 +73,7 @@ const Index = () => {
       updateStepStatus('consolidate', 'active');
       setCurrentStep('consolidate');
       
+      // Consolidate duplicate items
       const consolidated = await consolidateDuplicates(items);
       setProcessedItems(consolidated);
       
