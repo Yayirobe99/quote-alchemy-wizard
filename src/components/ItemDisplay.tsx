@@ -12,7 +12,7 @@ import {
   Search, 
   SlidersHorizontal, 
   ChevronDown, 
-  Image, 
+  Image as ImageIcon, 
   FileText, 
   Package, 
   Tag,
@@ -361,6 +361,7 @@ const ItemDisplay = ({ items = [], onExport }: ItemDisplayProps) => {
               <TableHead>Item Code</TableHead>
               <TableHead>Category</TableHead>
               <TableHead>Area</TableHead>
+              <TableHead>Image</TableHead>
               <TableHead>Item Name</TableHead>
               <TableHead>Vendor</TableHead>
               <TableHead>Manufacturer</TableHead>
@@ -380,7 +381,7 @@ const ItemDisplay = ({ items = [], onExport }: ItemDisplayProps) => {
                     <div className="flex space-x-1">
                       {item.hasImage && (
                         <Badge variant="outline" className="h-6 w-6 p-0 flex items-center justify-center">
-                          <Image className="h-3 w-3" />
+                          <ImageIcon className="h-3 w-3" />
                         </Badge>
                       )}
                       {item.hasDuplicate && (
@@ -393,6 +394,21 @@ const ItemDisplay = ({ items = [], onExport }: ItemDisplayProps) => {
                   <TableCell className="font-medium">{item.code}</TableCell>
                   <TableCell>{item.category}</TableCell>
                   <TableCell>{item.area || item.location}</TableCell>
+                  <TableCell>
+                    {item.hasImage ? (
+                      <div className="h-12 w-12 rounded overflow-hidden border">
+                        <img 
+                          src="/lovable-uploads/67d27905-e0f7-4b23-af2b-1f2880fbb36b.png" 
+                          alt={item.name} 
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div className="h-12 w-12 rounded border flex items-center justify-center bg-gray-100">
+                        <ImageIcon className="h-6 w-6 text-gray-400" />
+                      </div>
+                    )}
+                  </TableCell>
                   <TableCell>
                     <div className="max-w-xs truncate" title={item.name}>{item.name}</div>
                   </TableCell>
@@ -438,7 +454,7 @@ const ItemDisplay = ({ items = [], onExport }: ItemDisplayProps) => {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={14} className="text-center py-8 text-wizard-neutral-500">
+                <TableCell colSpan={15} className="text-center py-8 text-wizard-neutral-500">
                   No items found. Try adjusting your search.
                 </TableCell>
               </TableRow>
