@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   Table, 
@@ -269,7 +268,7 @@ const ItemDisplay = ({ items = [], onExport }: ItemDisplayProps) => {
                 />
               ) : (
                 <div className="text-gray-400 flex flex-col items-center">
-                  <Image className="h-12 w-12" />
+                  <ImageIcon className="h-12 w-12" />
                   <p>No image available</p>
                 </div>
               )}
