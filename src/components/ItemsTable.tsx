@@ -34,6 +34,21 @@ type ItemsTableProps = {
 };
 
 const ItemsTable = ({ items, onViewItem, selectedItem }: ItemsTableProps) => {
+  // Function to determine which image to show for a specific item
+  const getItemImage = (item: Item) => {
+    if (!item.hasImage) return null;
+    
+    // Map item code to specific images - in a real app, you would use actual item images
+    const imageMapping: Record<string, string> = {
+      "LB-AC-101": "/lovable-uploads/67d27905-e0f7-4b23-af2b-1f2880fbb36b.png",
+      "LB-FF-100": "/lovable-uploads/bb1568c2-0c5d-4c2e-9735-7c4eb8673c7c.png",
+      "LB-LT-101": "/lovable-uploads/f242b7e8-3aa5-490e-af45-0307b906c560.png"
+    };
+    
+    // Use specific image if available, otherwise use a default
+    return imageMapping[item.code] || "/lovable-uploads/67d27905-e0f7-4b23-af2b-1f2880fbb36b.png";
+  };
+  
   return (
     <div className="border rounded-md overflow-x-auto">
       <Table>
@@ -80,7 +95,7 @@ const ItemsTable = ({ items, onViewItem, selectedItem }: ItemsTableProps) => {
                   {item.hasImage ? (
                     <div className="h-12 w-12 rounded overflow-hidden border">
                       <img 
-                        src="/lovable-uploads/67d27905-e0f7-4b23-af2b-1f2880fbb36b.png" 
+                        src={getItemImage(item)} 
                         alt={item.name} 
                         className="h-full w-full object-cover"
                       />

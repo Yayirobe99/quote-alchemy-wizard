@@ -10,6 +10,21 @@ type ItemDetailViewProps = {
 const ItemDetailView = ({ selectedItem }: ItemDetailViewProps) => {
   if (!selectedItem) return null;
   
+  // Function to determine which image to show for a specific item
+  const getItemImage = (item: Item) => {
+    if (!item.hasImage) return null;
+    
+    // Map item code to specific images - in a real app, you would use actual item images
+    const imageMapping: Record<string, string> = {
+      "LB-AC-101": "/lovable-uploads/67d27905-e0f7-4b23-af2b-1f2880fbb36b.png",
+      "LB-FF-100": "/lovable-uploads/bb1568c2-0c5d-4c2e-9735-7c4eb8673c7c.png",
+      "LB-LT-101": "/lovable-uploads/f242b7e8-3aa5-490e-af45-0307b906c560.png"
+    };
+    
+    // Use specific image if available, otherwise use a default
+    return imageMapping[item.code] || "/lovable-uploads/67d27905-e0f7-4b23-af2b-1f2880fbb36b.png";
+  };
+  
   return (
     <div className="flex flex-col gap-4">
       {/* Header with project info */}
@@ -140,7 +155,7 @@ const ItemDetailView = ({ selectedItem }: ItemDetailViewProps) => {
           <div className="flex-grow border flex items-center justify-center p-2">
             {selectedItem.hasImage ? (
               <img 
-                src="/lovable-uploads/67d27905-e0f7-4b23-af2b-1f2880fbb36b.png" 
+                src={getItemImage(selectedItem)} 
                 alt={selectedItem.name} 
                 className="max-h-[200px] object-contain"
               />
